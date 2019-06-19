@@ -50,10 +50,14 @@ public class QuerstionController {
 	}
 	
 	@GetMapping("/{id}")
-	public String getQuestionById(@PathVariable(value = "id") Long id, Model model) {
+	public String getQuestionById(@PathVariable(value = "id") Long id, Model model, HttpSession session) {
 		Question question = questionService.getQuestionById(id);
+		User sessionUser = (User)session.getAttribute("user");
+		User writer = question.getWriter();
 		for(Answer answer : question.getAnswers())
 			System.out.println(answer.getContents());
+		if(sessionUser.equals(writer))
+			model.addAttribute("same", "같다");
 		model.addAttribute("question", question);
 		return "/questions/info";
 	}
@@ -61,11 +65,13 @@ public class QuerstionController {
 	public String getUpdateForm(@PathVariable(value = "id") Long id, Model model) {
 		Question question = questionService.getQuestionById(id);
 		model.addAttribute("question", question);
-		return "/questions/info";
+		return "/questions/edit";
 	}
 	@PutMapping("/{id}")
-	public String updateQuestionById(@PathVariable(value = "id") Long id, String title, String contents, Model model) {
+	public String updateQuestionById(@PathVariable(value = "id") Long id, Question formQuestion, String title, String contents, Model model) {
 		Question question = questionService.getQuestionById(id);
+		question.setTitle(title);
+		question.setContents(contents);
 		questionService.updateQuestion(question);		
 		return "redirect:/questions/" + id;
 	}
@@ -74,6 +80,6 @@ public class QuerstionController {
 		Question question = questionService.getQuestionById(id);
 		questionService.deleteQuestion(question);
 		model.addAttribute("userId", question.getWriter().getUserId());
-		return "/questions/withdrawal";
+		return "redirect:/questions";
 	}
 }

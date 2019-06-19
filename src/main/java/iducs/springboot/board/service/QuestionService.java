@@ -14,4 +14,5 @@ public interface QuestionService {
 	void saveQuestion(Question question); // 질문 생성
 	void updateQuestion(Question question); // 질문 수정
 	void deleteQuestion(Question question); // 질문 삭제
+	void deleteAll(); // 질문 삭제
 }

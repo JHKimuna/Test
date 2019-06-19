@@ -3,72 +3,66 @@
 	  xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<th:block th:include="fragments/header"></th:block>
+<th:block th:include="/fragments/header"></th:block>
+<script>
+	function hiddenInput() {
+		var content = document.getElementById("realcontents").innerHTML;
+		var form = document.getElementById("updateform");
+		form.contents.value=content;
+		form.submit();
+	}
+</script>
 </head>
 <body>
-	<th:block th:include="fragments/nav"></th:block>  
-	<!-- breadcrumb start-->
+	<th:block th:include="/fragments/nav"></th:block> 
+
+    <!-- breadcrumb start-->
     <section class="breadcrumb breadcrumb_bg">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb_iner text-center">
                         <div class="breadcrumb_iner_item">
-							<h2>질문 쓰기</h2>
-                            <p>Home <span>//</span>Question</p>
+                            <h2>질문 상세 보기</h2>
+                            <p>Home<span>//</span>Question Detail</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-	<!-- End banner Area -->
-	
-	<div class="whole-wrap">
-		<div class="container box_1170">
-			<div class="section-top-border">
-				<div class="row">
-					<div class="col-lg-2 col-md-2 mt-sm-30">
-					</div>
-					<div class="col-lg-8">
-				          <form class="form-contact contact_form" action="/questions" method="post" id="contactForm" novalidate="novalidate">
-				            <div class="row">
-				              <div class="col-sm-6">
-				                <div class="form-group">
-				                  <input class="form-control" th:value="${writer.userId}" id="writer" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your name'" placeholder="Enter your name" ReadOnly>
-				                </div>
-				              </div>
-				              <!--
-				              <div class="col-sm-6">
-				                <div class="form-group">
-				                  <input class="form-control" name="email" id="email" type="email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'" placeholder="Enter email address">
-				                </div>
-				              </div>
-				              -->
-				              <div class="col-12">
-				                <div class="form-group">
-				                  <input class="form-control" name="title" id="title" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" placeholder="Enter Subject">
-				                </div>
-				              </div>
-				              <div class="col-12">
-				                <div class="form-group">				                  
-				                    <textarea class="form-control w-100" name="contents" id="contents" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'" placeholder="Enter Message"></textarea>
-				                </div>
-				              </div>
-				            </div>
-				            <div class="form-group mt-3">
-				              <button type="submit" class="button button-contactForm btn_4">질문쓰기</button>
-				            </div>
-				          </form>
-			        </div>
-					<div class="col-lg-2 col-md-2 mt-sm-30">
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	<th:block th:include="fragments/footer"></th:block> 
+    <!-- breadcrumb start-->
+   <!--================Blog Area =================-->
+   <section class="blog_area single-post-area section_padding">
+      <div class="container">
+         <div class="row">
+            <div class="col-lg-8 posts-list">
+               <div class="single-post">
+                  <div class="blog_details">
+                  <form id="updateform" th:action="@{'/questions/{id}'(id=${question.id})}" th:method="put" th:object="${question}">
+                     <h2>제목 : <input type="text" name="title" th:value="${question.title}" ></h2>
+                     <ul class="blog-info-link mt-3 mb-4">
+                     	<li><a href="#"><i class="far fa-user"></i> <span th:text="${question.writer.userId}"></span></a></li>
+                        <li><a href="#"><i class="far fa-clock"></i> <span th:text="${#temporals.format(question.createTime, 'yyyy년 MM월 dd일 HH:mm')}"></span></a></li>
+                        <li><a href="#comment-area"><i class="far fa-comments"></i> 03 Comments</a></li>
+                        
+                     </ul>
+                     <div class="quote-wrapper">
+                        <div contenteditable="true" type="text" class="quotes" id="realcontents" th:text="${question.contents}">
+                        </div>
+                        <input type="hidden" id="contents" name="contents">
+                     </div>
+                     <button onclick="javascript:hiddenInput()" class="button button-contactForm">수정하기</button>
+                  </form>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+   <!--================Blog Area end =================-->
+
+	<th:block th:include="/fragments/footer"></th:block>   
 </body>
 
 </html>

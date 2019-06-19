@@ -87,6 +87,11 @@ public class QuestionServiceImpl implements QuestionService {
 		repository.delete(entity);
 		
 	}
+	
+	@Override
+	public void deleteAll() {
+		repository.deleteAll();
+	}
 
 	
 
