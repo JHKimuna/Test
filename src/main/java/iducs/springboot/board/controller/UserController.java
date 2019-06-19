@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import iducs.springboot.board.domain.User;
 import iducs.springboot.board.service.UserService;
+import iducs.springboot.board.utils.HttpSessionUtils;
 
 @Controller
 @RequestMapping("/users")
@@ -33,7 +34,10 @@ public class UserController {
 	@GetMapping("")
 	public String getUsers(Model model, HttpSession session, Long pageNo) { //@PathVariable(value = "pageNo") Long pageNo) {
 		System.out.println(pageNo);
-		model.addAttribute("users", userService.getUsers(pageNo));
+		if(!HttpSessionUtils.isLoginUser(session))
+			return "redirect:/users/login-form";
+		model.addAttribute("users", userService.getUsers());
+		// model.addAttribute("users", userService.getUsers(pageNo));
 		return "/users/list";
 	}	
 	@GetMapping("/{id}")
