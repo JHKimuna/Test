@@ -18,7 +18,6 @@ public interface QuestionRepository
 	extends JpaRepository<QuestionEntity, Long> {		
 	List<QuestionEntity> findAll(Sort sort); 
 	Page<QuestionEntity> findAllBy(Pageable pageable); 
-	
-	// Page<QuestionEntity> findAllByCategory(Pageable pageable, String category); 
-	Page<QuestionEntity> findAllByTitle(PageRequest pageRequest, String title);
+	 
+	Page<QuestionEntity> findAllByTitle(PageRequest pageable, String title);
 }

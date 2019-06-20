@@ -33,10 +33,12 @@ public class UserController {
 	}	
 	@GetMapping("")
 	public String getUsers(Model model, HttpSession session, Long pageNo) { //@PathVariable(value = "pageNo") Long pageNo) {
+		if(pageNo == null)
+			pageNo = new Long(1);
 		System.out.println(pageNo);
 		if(!HttpSessionUtils.isLoginUser(session))
 			return "redirect:/users/login-form";
-		model.addAttribute("users", userService.getUsers());
+		model.addAttribute("users", userService.getUsers(pageNo));
 		// model.addAttribute("users", userService.getUsers(pageNo));
 		return "/users/list";
 	}	

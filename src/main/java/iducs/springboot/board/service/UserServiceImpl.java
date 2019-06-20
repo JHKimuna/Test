@@ -54,6 +54,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> getUsers(Long pageNo) {
 		PageRequest pageRequest = PageRequest.of((int) (pageNo - 1), 3, new Sort(Sort.Direction.DESC, "id"));
+		// 페이지, 사이즈넘버, 정렬
 		Page<UserEntity> entities = repository.findAll(pageRequest);
 		List<User> users = new ArrayList<User>();
 		for(UserEntity entity : entities) {
