@@ -35,7 +35,7 @@ public class QuerstionController {
 	
 	@GetMapping("")
 	public String getAllQuestions(Model model, HttpSession session, Pageable pageable) {
-		List<Question> questions = questionService.getQuestions();
+		List<Question> questions = questionService.getQuestionsByTitle();
 		// List<Question> questions = questionService.getQuestionsByWriter("1");
 		model.addAttribute("questions", questions);
 		return "/questions/list"; 

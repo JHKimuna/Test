@@ -52,15 +52,16 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public List<Question> getQuestionsByTitle(String title) {
+	public List<Question> getQuestionsByTitle() {
 		// TODO Auto-generated method stub
 		
 		// List<QuestionEntity> entities = repository.findAll(new Sort(Sort.Direction.DESC, "createTime"));
-		@SuppressWarnings("deprecation")
-		PageRequest pageRequest = new PageRequest(0,1,new Sort(Direction.DESC, "title"));
+		// @SuppressWarnings("deprecation")
+		// PageRequest pageRequest = new PageRequest(0,10,new Sort(Direction.DESC, "title"));
 		// 현재 페이지, 조회할 페이지수, 정렬 정보
 		
-		Page<QuestionEntity> entities = repository.findAll(pageRequest);
+		// Page<QuestionEntity> entities = repository.findAll(pageRequest);
+		List<QuestionEntity> entities = repository.findAll(new Sort(Sort.Direction.DESC, "title"));
 		List<Question> questions = new ArrayList<Question>();
 		for(QuestionEntity entity : entities) {
 			Question question = entity.buildDomain();
