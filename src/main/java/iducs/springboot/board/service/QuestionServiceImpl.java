@@ -6,7 +6,10 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import iducs.springboot.board.domain.Answer;
@@ -38,10 +41,6 @@ public class QuestionServiceImpl implements QuestionService {
 
 	@Override
 	public List<Question> getQuestions() {
-		/*
-		 * 1. Repository로 부터 모든 자료를 가져와 Enitiy 리스트에 저장한다.
-		 * 2. 
-		 */
 		List<QuestionEntity> entities = repository.findAll(new Sort(Sort.Direction.DESC, "createTime"));
 		
 		List<Question> questions = new ArrayList<Question>();
@@ -53,11 +52,25 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public List<Question> getQuestionsByUser(String name) {
+	public List<Question> getQuestionsByTitle(String title) {
 		// TODO Auto-generated method stub
-		return null;
+		
+		// List<QuestionEntity> entities = repository.findAll(new Sort(Sort.Direction.DESC, "createTime"));
+		@SuppressWarnings("deprecation")
+		PageRequest pageRequest = new PageRequest(0,1,new Sort(Direction.DESC, "title"));
+		// 현재 페이지, 조회할 페이지수, 정렬 정보
+		
+		Page<QuestionEntity> entities = repository.findAll(pageRequest);
+		List<Question> questions = new ArrayList<Question>();
+		for(QuestionEntity entity : entities) {
+			Question question = entity.buildDomain();
+			questions.add(question);
+		}
+		return questions;
+		
+		// return null;
 	}
-
+	
 	@Override
 	public List<Question> getQuestionsByPage(int index, int size) {
 		// TODO Auto-generated method stub

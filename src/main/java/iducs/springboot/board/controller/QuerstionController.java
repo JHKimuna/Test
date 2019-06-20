@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -33,8 +34,9 @@ public class QuerstionController {
 	@Autowired QuestionService questionService; // 의존성 주입(Dependency Injection) : 
 	
 	@GetMapping("")
-	public String getAllUser(Model model, HttpSession session) {
+	public String getAllQuestions(Model model, HttpSession session, Pageable pageable) {
 		List<Question> questions = questionService.getQuestions();
+		// List<Question> questions = questionService.getQuestionsByWriter("1");
 		model.addAttribute("questions", questions);
 		return "/questions/list"; 
 	}	
